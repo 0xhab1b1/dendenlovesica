@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="./styles.css" />
     <title>for you, ica.</title>
     <style>
-      /* Optional subtle fade-in */
       .fade-in {
         opacity: 0;
         animation: fadeIn 700ms ease-out forwards;
@@ -67,7 +66,6 @@
           </span>
         </p>
 
-        <!-- Photo box (mixed portrait/landscape photos) -->
         <section class="photo-box" aria-label="Photo memories">
           <h3 class="photo-box__title">photos!! :3</h3>
 
@@ -134,14 +132,10 @@
       </div>
     </main>
 
-    <!-- Background music (only on main.html) -->
     <audio id="bg-audio" src="./assets/song.mp3" autoplay loop playsinline></audio>
     <script>
-      // Autoplay rules: most browsers allow autoplay only if muted.
-      // This starts muted, then unmutes after the user's first interaction on this page.
       const audio = document.getElementById("bg-audio");
 
-      // Try to begin playback immediately (muted).
       audio.play().catch(() => {});
 
       const enableSound = () => {
@@ -152,7 +146,6 @@
         window.removeEventListener("touchstart", enableSound);
       };
 
-      // First user interaction enables sound
       window.addEventListener("click", enableSound, { once: true });
       window.addEventListener("keydown", enableSound, { once: true });
       window.addEventListener("touchstart", enableSound, { once: true, passive: true });
