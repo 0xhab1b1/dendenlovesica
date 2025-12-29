@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Font: Montserrat Alternates -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Welcome</title>
+    <style>
+      /* Minimal intro-specific styles; you can move to styles.css if preferred */
+      .intro-wrapper {
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        padding: 2rem;
+        text-align: center;
+      }
+      .intro-card {
+        max-width: 720px;
+        width: 100%;
+        padding: 2rem 2.5rem;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(6px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      }
+      .intro-title {
+        font-family: "Montserrat Alternates", sans-serif;
+        font-weight: 700;
+        margin: 0 0 0.75rem;
+      }
+      .intro-sub {
+        margin: 0 0 1.5rem;
+        opacity: 0.85;
+      }
+      .enter-btn {
+        appearance: none;
+        border: none;
+        cursor: pointer;
+        font-family: "Montserrat Alternates", sans-serif;
+        font-weight: 600;
+        padding: 0.85rem 1.4rem;
+        border-radius: 999px;
+        color: #fff;
+        background: linear-gradient(135deg, #ff6aa2, #6a8bff);
+        box-shadow: 0 8px 18px rgba(106,139,255,0.35);
+        transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .enter-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(106,139,255,0.45);
+      }
+      .enter-btn:active {
+        transform: translateY(0);
+      }
+
+      /* Optional background aesthetic */
+      body {
+        background: radial-gradient(1200px 800px at 20% 10%, #ffe0ec 0%, transparent 60%),
+                    radial-gradient(1200px 800px at 80% 90%, #e2e7ff 0%, transparent 60%),
+                    #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="intro-wrapper">
+      <section class="intro-card">
+        <h1 class="intro-title">for you, ica.</h1>
+        <p class="intro-sub">A little space I made, just for you.</p>
+        <a class="enter-btn" href="./main.html">Enter</a>
+      </section>
+    </main>
+  </body>
+</html>

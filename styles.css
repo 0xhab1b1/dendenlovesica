@@ -1,0 +1,214 @@
+/* Page styles */
+:root {
+  --bg: #ffb4dd;
+
+  /* ===== Background overlay image controls =====
+     Set the image path and tweak placement/rotation here.
+     Tip: use PNG with transparency for a nice overlay effect.
+  */
+  --bg-overlay-image: url("./assets/bg-overlay.png"); /* <-- change path */
+  --bg-overlay-size: 520px auto; /* e.g. 400px auto, cover, contain */
+  --bg-overlay-x: 50%; /* left/center/right or px/% */
+  --bg-overlay-y: 20%; /* top/center/bottom or px/% */
+  --bg-overlay-rotate: -8deg; /* rotation */
+  --bg-overlay-opacity: 0.35; /* 0..1 */
+
+  /* ===== Subhead background (2nd background layer) controls ===== */
+  --subhead-bg-image: url("./assets/subhead-bg.png"); /* <-- change path */
+  --subhead-bg-size: cover; /* or: contain / 280px auto */
+  --subhead-bg-position: center;
+  --subhead-bg-opacity: 0.35; /* 0..1 (applied via color overlay below) */
+  --subhead-bg-radius: 18px;
+  --subhead-bg-padding-y: 14px; /* space between text and background */
+  --subhead-bg-padding-x: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* Use Montserrat Alternates globally with sensible fallbacks */
+body {
+  margin: 0;
+  font-family: "Montserrat Alternates", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", sans-serif;
+  background: var(--bg);
+  color: #5d484f;
+  opacity: 0.8;
+
+  /* Needed so the overlay layer can sit above the background color,
+     but behind page content. */
+  position: relative;
+  isolation: isolate;
+}
+
+/* Background image overlay layer (sits above the solid background color) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background-image: var(--bg-overlay-image);
+  background-repeat: no-repeat;
+  background-size: var(--bg-overlay-size);
+  background-position: var(--bg-overlay-x) var(--bg-overlay-y);
+
+  /* Rotate around its center, without affecting layout */
+  transform: rotate(var(--bg-overlay-rotate));
+  transform-origin: center;
+
+  opacity: var(--bg-overlay-opacity);
+
+  /* Keep it behind all content and non-interactive */
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Top-align the block, keep it centered horizontally */
+.center {
+  min-height: 100dvh;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  text-align: center;
+  padding-top: clamp(24px, 6vh, 72px);
+  padding-inline: 16px;
+}
+
+.hero {
+  max-width: 60ch;
+}
+
+h1 {
+  font-size: clamp(3rem, 8vw, 8rem);
+  line-height: 1;
+  margin: 0;
+  font-weight: 600;
+}
+
+.subhead {
+  margin: 35px 0 0;
+
+  /* Give the background "margins" (space around the text) */
+  display: inline-block;
+  padding: var(--subhead-bg-padding-y) var(--subhead-bg-padding-x);
+  border-radius: var(--subhead-bg-radius);
+
+  font-size: clamp(1rem, 2.2vw, 2rem);
+  letter-spacing: 0.13em; /* spacing between characters */
+  line-height: 1.2;
+  font-weight: 500;
+  opacity: 0.9;
+
+  /* 2-layer background:
+     Layer 1 = subtle color tint (lets you control intensity via opacity)
+     Layer 2 = image
+  */
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, var(--subhead-bg-opacity)),
+      rgba(255, 255, 255, var(--subhead-bg-opacity))
+    ),
+    var(--subhead-bg-image);
+  background-repeat: no-repeat, no-repeat;
+  background-size: auto, var(--subhead-bg-size);
+  background-position: center, var(--subhead-bg-position);
+}
+/* Hide background audio element (it still plays) */
+audio#bg-audio {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ========= Photo gallery: fit whole image, auto-size tile height ========= */
+
+/* Container box stays consistent in page layout */
+.photo-box {
+  margin-top: 1.25rem;
+  padding: 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+}
+
+.photo-box__title {
+  margin: 0 0 0.75rem 0;
+  font-family: "Montserrat Alternates", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+
+/*
+  Responsive grid with consistent horizontal margins:
+  - columns are fixed by grid tracks; tiles won't overflow horizontally
+  - the row heights grow naturally per image (including long portraits)
+*/
+.photo-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* mobile */
+  gap: 0.75rem;
+  align-items: start; /* prevent stretching rows */
+}
+
+@media (min-width: 720px) {
+  .photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .photo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/*
+  Tile:
+  - no fixed height -> it expands to fit the image (portrait will be taller)
+  - consistent padding/border keeps margins uniform visually
+*/
+.photo {
+  margin: 0;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 10px;
+
+  /* Keep the image centered if it's smaller than the tile width */
+  display: grid;
+  place-items: center;
+
+  /* Allow the tile to grow with content */
+  height: auto;
+}
+
+/*
+  The image:
+  - width follows the grid column width (keeps horizontal margins consistent)
+  - height auto preserves original aspect ratio
+  - no cropping (object-fit isn't necessary unless you set an explicit height)
+*/
+.photo__img {
+  display: block;
+
+  /* Fit inside the grid column without overflow */
+  width: 100%;
+  height: auto;
+
+  /* Keep the whole photo visible, never cropped */
+  object-fit: contain;
+
+  /* Optional: prevents image from exceeding its natural size if it's smaller */
+  max-width: 100%;
+}
